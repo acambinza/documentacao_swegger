@@ -1,0 +1,76 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de manipulacao de Filmes",
+        "description": "Manipulacao de Filmes, crud de videos e categorias",
+        "termsOfService":"http://localhost:3300/terms",
+        "contact": {
+            "email": "acambinza@gmail.com"
+        },
+        "version":"1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3300/api/v1",
+            "description":"API da Versao 1"
+        },
+        {
+            "url": "http://localhost:3300/api/v2",
+            "description":"API da Versao 2"
+        }
+    ],
+    "paths": {
+        "/categories": {
+            "post": {
+                "summury": "Cadastro de Categorias",
+                "description": "Rota responsavel no cadastro de uma nova categoria",
+                "tags": ["Categorias"],
+                "requestBody":{
+                    "content": {
+                        "application/json": {
+                            "schema" : {
+                               "$ref": "#/components/schemas/Category"
+                            }
+                        }
+                    }
+                },
+            "responses": {
+                "200": {
+                    "description":"Salvo com Sucesso",
+                    "content": {
+                        "application/json":{
+                            "schema": {
+                                "items": {
+                                    "$ref": "#/components/schemas/Category"
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "400": {
+                    "description":"Category already exists!"
+                }
+            }
+           }
+        }
+    },
+    "components": {
+        "schemas":{
+            "Category": {
+                "type":"object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
