@@ -22,14 +22,23 @@
     "paths": {
         "/categories": {
             "post": {
-                "summury": "Cadastro de Categorias",
+                "summary": "Cadastro de Categorias",
                 "description": "Rota responsavel no cadastro de uma nova categoria",
                 "tags": ["Categorias"],
+                "security": [{"bearerAuth": []}],
                 "requestBody":{
                     "content": {
                         "application/json": {
                             "schema" : {
                                "$ref": "#/components/schemas/Category"
+                            },
+                            "examples": {
+                                "category": {
+                                    "value": {
+                                        "name":"Categoria exemplo",
+                                        "description":"Descricao exemplo"
+                                    }
+                                }
                             }
                         }
                     }
@@ -52,7 +61,118 @@
                     "description":"Category already exists!"
                 }
             }
-           }
+           },
+           "get": {
+            "description": "Buscar todas as Categorias",
+            "summary": "Busca das Categorias",
+            "tags":["Categorias"],
+            "responses": {
+                "200": {
+                    "description":"OK",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref":"#/components/schemas/Category"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        },
+        "/categories/{id}": {
+            "put": {
+                "description": "Actualizacao de uma Categoria",
+                "summary": "Update de Categorias",
+                "tags":["Categorias"],
+                "parameters": [
+                    {
+                        "name":"id",
+                        "in": "path",
+                        "description":"Categoria por ID",
+                        "required": true
+                    }
+                ],
+                "requestBody":{
+                    "content": {
+                        "application/json": {
+                            "schema" : {
+                               "$ref": "#/components/schemas/Category"
+                            },
+                            "examples": {
+                                "category": {
+                                    "value": {
+                                        "name":"Categoria exemplo",
+                                        "description":"Descricao exemplo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description":"OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description":"This Category does not exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Eliminar uma Categoria",
+                "summary": "Eliminar uma Categorias",
+                "tags":["Categorias"],
+                "parameters": [
+                    {
+                        "name":"id",
+                        "in": "path",
+                        "description":"Categoria por ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description":"OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description":"This Category does not exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -60,16 +180,23 @@
             "Category": {
                 "type":"object",
                 "properties": {
-                    "id": {
-                        "type": "string"
-                    },
                     "name": {
                         "type": "string"
                     },
                     "description": {
                         "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
                     }
                 }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }
